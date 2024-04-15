@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from "$app/environment";
 	import { base } from "$app/paths";
 	import { page } from "$app/stores";
 	import { PUBLIC_APP_DESCRIPTION, PUBLIC_APP_NAME } from "$env/static/public";
@@ -9,6 +10,7 @@
 	import Logo from "./icons/Logo.svelte";
 
 	const settings = useSettingsStore();
+	const isIframe = browser && window.self !== window.parent;
 </script>
 
 <Modal on:close>
@@ -30,7 +32,7 @@
 
 		<form
 			action="{base}/{$page.data.loginRequired ? 'login' : 'settings'}"
-			target="_parent"
+			target={isIframe ? "_blank" : ""}
 			method="POST"
 			class="flex w-full flex-col items-center gap-2"
 		>
